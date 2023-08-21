@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  first:
+    url: jdbc:postgresql://localhost:5432/db_postgres
+    jdbc-url: jdbc:postgresql://localhost:5432/db_postgres
+    username: postgres
+    password: axborot1116
+    driver-class-name: org.postgresql.Driver
+    configuration:
+      jdbc-url: jdbc:postgresql://localhost:5432/db_postgres
+      username: postgres
+      password: axborot1116
+
+  second:
+    url: jdbc:mysql://localhost:3306/db_sql
+    jdbc-url: jdbc:mysql://localhost:3306/db_sql
+    username: root
+    password: axborot1116
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    configuration:
+      jdbc-url: jdbc:mysql://localhost:3306/db_sql
+      username: root
+      password: axborot1116
+        axborot1116
+
