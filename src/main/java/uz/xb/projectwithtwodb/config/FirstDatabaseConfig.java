@@ -88,8 +88,8 @@ public class FirstDatabaseConfig {
     }
 
     @Primary
-    @Bean(name = "firstEntityManagerFactory")
-    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    @Bean(name = "transactionManagerFirst")
+    public PlatformTransactionManager transactionManager(@Qualifier("firstEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

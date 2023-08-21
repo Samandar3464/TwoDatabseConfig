@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import uz.xb.projectwithtwodb.entity.first.Info;
 import uz.xb.projectwithtwodb.entity.second.ABS;
+import uz.xb.projectwithtwodb.repository.first.InfoRepository;
 import uz.xb.projectwithtwodb.repository.second.ABSRepository;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class UserService {
 
     private final ABSRepository absRepository;
 
+    private final InfoRepository infoRepository;
+
     public List<ABS> fromPtoS() {
         String query = "select u.id , u.name, s.car_name from users u  join car s on u.id = s.user_id";
         List<Map<String, Object>> maps = jdbcTemplate1.queryForList(query);
@@ -38,4 +42,13 @@ public class UserService {
         return usersList;
     }
 
+    public List<Info> fromStoP() {
+        List<Info> infoList = new ArrayList<>();
+        for (ABS abs : absRepository.findAll()) {
+            Info info = new Info(abs.getId(), abs.getUserId(), abs.getName(), abs.getCarName());
+            infoList.add(info);
+            infoRepository.save(info);
+        }
+        return infoList;
+    }
 }
