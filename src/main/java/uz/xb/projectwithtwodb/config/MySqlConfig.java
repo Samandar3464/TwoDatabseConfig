@@ -2,6 +2,8 @@ package uz.xb.projectwithtwodb.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -35,14 +37,15 @@ public class MySqlConfig {
     private final Environment e;
 
     @Bean(name = "mySqlDataSource")
-//    @ConfigurationProperties(prefix = "spring.mysql")
+    @ConfigurationProperties(prefix = "spring.mysql")
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(e.getProperty("spring.mysql.url"));
-        ds.setUsername(e.getProperty("spring.mysql.username"));
-        ds.setPassword(e.getProperty("spring.mysql.password"));
-        ds.setDriverClassName(e.getProperty("spring.mysql.driver-class-name"));
-        return ds;
+//        DriverManagerDataSource ds = new DriverManagerDataSource();
+//        ds.setUrl(e.getProperty("spring.mysql.url"));
+//        ds.setUsername(e.getProperty("spring.mysql.username"));
+//        ds.setPassword(e.getProperty("spring.mysql.password"));
+//        ds.setDriverClassName(e.getProperty("spring.mysql.driver-class-name"));
+//        return ds;
+        return DataSourceBuilder.create().build();
     }
 
 

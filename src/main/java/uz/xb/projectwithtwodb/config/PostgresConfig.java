@@ -39,15 +39,15 @@ public class PostgresConfig {
 
     @Primary
     @Bean(name = "postgresDataSource")
-//    @ConfigurationProperties(prefix = "spring.postgres")
+    @ConfigurationProperties(prefix = "spring.postgres")
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(e.getProperty("spring.postgres.url"));
-        ds.setUsername(e.getProperty("spring.postgres.username"));
-        ds.setPassword(e.getProperty("spring.postgres.password"));
-        ds.setDriverClassName(e.getProperty("spring.postgres.driver-class-name"));
-        return ds;
-//        return DataSourceBuilder.create().build();
+//        DriverManagerDataSource ds = new DriverManagerDataSource();
+//        ds.setUrl(e.getProperty("spring.postgres.url"));
+//        ds.setUsername(e.getProperty("spring.postgres.username"));
+//        ds.setPassword(e.getProperty("spring.postgres.password"));
+//        ds.setDriverClassName(e.getProperty("spring.postgres.driver-class-name"));
+//        return ds;
+        return DataSourceBuilder.create().build();
     }
 
     @Primary
