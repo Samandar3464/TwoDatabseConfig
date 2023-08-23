@@ -52,17 +52,6 @@ public class UserService {
                 " name varchar(50) , " +
                 "car_name varchar(50))");
 
-        postgresTemplate.execute("CREATE TABLE IF NOT EXISTS call_info ("
-                + "id BIGSERIAL PRIMARY KEY,"
-                + "calls_id BIGINT NOT NULL UNIQUE,"
-                + "caller_id VARCHAR(32),"
-                + "loan_id VARCHAR(7),"
-                + "created_at TIMESTAMP,"
-                + "duration INTEGER,"
-                + "result INTEGER,"
-                + "transfered_at TIMESTAMP WITH TIME ZONE,"
-                + "campaign_id BIGINT"
-                + ")");
 
         for (ABS abs : absList) {
             ABS abs1 = new ABS(abs.getId(), abs.getUserId(), abs.getName(), abs.getCarName());
