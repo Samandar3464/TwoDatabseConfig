@@ -1,12 +1,16 @@
 package uz.xb.projectwithtwodb.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -21,68 +25,79 @@ import java.util.HashMap;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "entityManagerFactorySecond",
-        transactionManagerRef = "transactionManagerSecond",
+        entityManagerFactoryRef = "entityManagerFactoryPostgres",
+        transactionManagerRef = "transactionManagerPostgres",
         basePackages = {
-//                "uz.xb.projectwithtwodb.entity.second",
-                "uz.xb.projectwithtwodb.repository.second"
+//                "uz.xb.projectwithtwodb.entity.postgres",
+                "uz.xb.projectwithtwodb.repository.postgres"
         }
 )
-public class SecondDatabaseConfig {
+@RequiredArgsConstructor
+public class PostgresConfig {
 
+    private final Environment e;
 
-    @Bean(name = "secondDataSource")
-    @ConfigurationProperties(prefix = "spring.second")
+    @Primary
+    @Bean(name = "postgresDataSource")
+//    @ConfigurationProperties(prefix = "spring.postgres")
     public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setUrl(e.getProperty("spring.postgres.url"));
+        ds.setUsername(e.getProperty("spring.postgres.username"));
+        ds.setPassword(e.getProperty("spring.postgres.password"));
+        ds.setDriverClassName(e.getProperty("spring.postgres.driver-class-name"));
+        return ds;
+//        return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "jdbcUser2")
-    public JdbcTemplate mainJdbcTemplate(@Qualifier("secondDataSource") DataSource dsMaster) {
+    @Primary
+    @Bean(name = "postgres")
+    public JdbcTemplate mainJdbcTemplate(@Qualifier("postgresDataSource") DataSource dsMaster) {
         return new JdbcTemplate(dsMaster);
     }
 
-//    @Bean(name = "entityManagerFactoryBuilderSecond")
+//    @Primary
+//    @Bean(name = "entityManagerFactoryBuilder")
 //    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
 //        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap(), null);
 //    }
-
-//    @Bean(name = "entityManagerFactorySecond")
+//
+//    @Primary
+//    @Bean(name = "entityManagerFactory")
 //    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-//            @Qualifier("entityManagerFactoryBuilderSecond") EntityManagerFactoryBuilder builder,
-//            @Qualifier("secondDataSource") DataSource dataSource
+//            @Qualifier("entityManagerFactoryBuilder") EntityManagerFactoryBuilder builder,
+//            @Qualifier("dataSource") DataSource dataSource
 //    ) {
 //
 //        Map<String, Object> properties = new HashMap<>();
 //        properties.put("hibernate.hbm2ddl.auto", "none");
-//        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+//        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 //
 //        return builder
 //                .dataSource(dataSource)
-//                .packages("uz.xb.projectwithtwodb.entity.second")
-//                .persistenceUnit("second")
+//                .packages("com.hrms.entity")
 //                .properties(properties)
 //                .build();
 //
 //    }
 
-
-    @Bean(name = "entityManagerFactorySecond")
+    @Primary
+    @Bean(name = "entityManagerFactoryPostgres")
     public LocalContainerEntityManagerFactoryBean entityManager() {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(dataSource());
         JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         bean.setJpaVendorAdapter(adapter);
         HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.put("hibernate.hbm2ddl.auto", "none");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         bean.setJpaPropertyMap(properties);
-        bean.setPackagesToScan("uz.xb.projectwithtwodb.entity.second");
+        bean.setPackagesToScan("uz.xb.projectwithtwodb.entity.postgres");
         return bean;
     }
-
-    @Bean(name = "transactionManagerSecond")
-    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactorySecond") EntityManagerFactory entityManagerFactory) {
+    @Primary
+    @Bean(name = "transactionManagerPostgres")
+    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactoryPostgres") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

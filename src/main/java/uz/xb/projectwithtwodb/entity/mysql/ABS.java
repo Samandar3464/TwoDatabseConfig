@@ -1,4 +1,4 @@
-package uz.xb.projectwithtwodb.entity.first;
+package uz.xb.projectwithtwodb.entity.mysql;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "info")
+@Table(name = "abs")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Info {
+public class ABS {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.xb.projectwithtwodb.entity.first.Info;
-import uz.xb.projectwithtwodb.entity.second.ABS;
+import uz.xb.projectwithtwodb.entity.mysql.ABS;
 import uz.xb.projectwithtwodb.service.UserService;
 
 import java.util.List;
@@ -21,8 +20,9 @@ public class Controller {
     public List<ABS> get() {
        return userService.fromPtoS();
     }
+
     @GetMapping("/a")
-    public List<Info> getA() {
+    public List<ABS> getA() {
         return userService.fromStoP();
     }
 }

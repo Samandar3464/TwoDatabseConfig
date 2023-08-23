@@ -8,7 +8,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  first:
+  postgres:
     url: jdbc:postgresql://localhost:5432/db_postgres
     jdbc-url: jdbc:postgresql://localhost:5432/db_postgres
     username: postgres
@@ -19,7 +19,7 @@ spring:
       username: postgres
       password: axborot1116
 
-  second:
+  mysql:
     url: jdbc:mysql://localhost:3306/db_sql
     jdbc-url: jdbc:mysql://localhost:3306/db_sql
     username: root
@@ -29,5 +29,4 @@ spring:
       jdbc-url: jdbc:mysql://localhost:3306/db_sql
       username: root
       password: axborot1116
-        axborot1116
 
